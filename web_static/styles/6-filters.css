@@ -1,0 +1,55 @@
+.filters {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filters .locations,
+.filters .amenities {
+    position: relative; /* For positioning the popover */
+}
+
+.filters .popover {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FAFAFA;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    list-style-type: none;
+    padding: 10px;
+}
+
+.filters .popover li {
+    margin-bottom: 5px;
+}
+
+.filters .locations:hover .popover,
+.filters .amenities:hover .popover {
+    display: block;
+}
+
+.filters h3 {
+    font-weight: 600;
+}
+
+.filters h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.filters button {
+    font-size: 18px;
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    height: 48px;
+    width: 20%;
+    border: none;
+    border-radius: 4px;
+    transition: opacity 0.3s;
+}
+
+.filters button:hover {
+    opacity: 0.9;
+}
