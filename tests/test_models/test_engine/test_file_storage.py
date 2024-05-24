@@ -112,6 +112,16 @@ class TestFileStorage(unittest.TestCase):
         self.assertTrue(FileStorage.reload.__doc__)
         self.assertTrue(hasattr(FileStorage, 'reload'))
 
+    def test_get(self):
+        """Test the get method"""
+        self.assertEqual(self.storage.get(State, self.s1.id), self.s1)
+        self.assertIsNone(self.storage.get(State, "nonexistent-id"))
+
+    def test_count(self):
+        """Test the count method"""
+        self.assertEqual(self.storage.count(), len(self.storage.all()))
+        self.assertEqual(self.storage.count(State), len(self.storage.all(State)))
+
 
 if __name__ == '__main__':
     unittest.main()
