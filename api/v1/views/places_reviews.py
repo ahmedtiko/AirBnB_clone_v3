@@ -1,4 +1,6 @@
-eview objects view
+#!/usr/bin/python3
+"""
+Review objects view
 """
 
 from flask import jsonify, abort, request
