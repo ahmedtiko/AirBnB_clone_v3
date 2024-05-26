@@ -9,7 +9,43 @@ from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
+from models.state import State
+from models.amenity import Amenity
+from os import getenv
 
+STORAGE_TYPE = getenv('HBNB_TYPE_STORAGE')
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def places_search():
+    """ Retrieves all Place objects depending on the JSON in the body of the request """
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+    data = request.get_json()
+    
+    states = data.get('states', [])
+    cities = data.get('cities', [])
+    amenities = data.get('amenities', [])
+    
+    if not states and not cities:
+        places = storage.all(Place).values()
+    else:
+        places = []
+        if states:
+            for state_id in states:
+                state = storage.get(State, state_id)
+                if state:
+                    for city in state.cities:
+                        places.extend(city.places)
+        if cities:
+            for city_id in cities:
+                city = storage.get(City, city_id)
+                if city:
+                    places.extend(city.places)
+    
+    if amenities:
+        places = [place for place in places if all(storage.get(Amenity, amenity_id) in place.amenities for amenity_id in amenities)]
+    
+    return jsonify([place.to_dict() for place in places])
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
 def get_places(city_id):
